@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Section-07</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container-fluid"> 
+        <h1>Notes App</h1>
+        <h3>Take notes and never forget it</h3>
+        <input type="text" id="search-text">
+        <div id="result"></div>
+        <button type="button" id="create-note">Create Note</button>
+        <form id="form">
+            <input type="text" name="firstName" placeholder="First Name">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        const notes = [{
+            title: 'my next trip',
+            body: 'i  would like to go to Spain'
+        },{
+            title: 'habbits to work on',
+            body: 'excercise, eating a bit better'
+        },{
+            title: 'office modification',
+            body: 'get a new eat'
+        }];
+
+        const filters = {
+            searchText: ''
+        }
+
+        const renderNotes = function(notes, filters){
+            const filteredNotes = notes.filter(function(note){
+                return note.title.toLowerCase().includes(filters.searchText.toLowerCase());
+            });
+            document.querySelector('#result').innerHTML = '';
+            filteredNotes.forEach(function(note){
+                const noteEl = document.createElement('p');
+                noteEl.textContent = note.title;
+                document.querySelector('#result').appendChild(noteEl);
+            });
+        }
+
+        renderNotes(notes, filters);
+
+        document.querySelector('#create-note').addEventListener('click', function(e){
+            e.target.textContent = 'The button was clicked';
+        });
+        
+        document.querySelector('#search-text').addEventListener('input', function(e){
+            filters.searchText = e.target.value;
+            renderNotes(notes, filters);
+        });
+
+        document.querySelector('#form').addEventListener('submit', function(e){
+            e.preventDefault();
+            console.log(e.target.elements.firstName.value);
+            e.target.elements.firstName.value = '';
+        });
+    </script>
+</body>
+</html>
